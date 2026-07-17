@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blog | A1C Calc</title>
-<meta name="description" content="Plain-language guides on HbA1c, blood glucose, and what your lab results actually mean.">
+<title>HbA1c to Average Blood Glucose Calculator | eAG Converter</title>
+<meta name="description" content="Convert HbA1c (A1C) percentage to estimated average glucose (eAG) in mg/dL and mmol/L. Free, instant, no signup.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -20,6 +20,9 @@
     --line: #E3EAE7;
     --gold: #D89A4E;
     --gold-deep: #B87B32;
+    --normal: #4C9A6A;
+    --pre: #D9A441;
+    --diabetes: #C1543A;
     --radius: 18px;
   }
   *{box-sizing:border-box;}
@@ -33,7 +36,7 @@
 
   .hero{
     background: radial-gradient(120% 160% at 15% 0%, var(--hero-2) 0%, var(--hero-1) 65%);
-    padding: 64px 24px 100px;
+    padding: 64px 24px 140px;
     position: relative;
     overflow:hidden;
   }
@@ -46,7 +49,7 @@
     background: radial-gradient(circle, rgba(216,154,78,0.16) 0%, rgba(216,154,78,0) 70%);
   }
   .hero-inner{
-    max-width: 720px;
+    max-width: 680px;
     margin: 0 auto;
     position: relative;
   }
@@ -75,7 +78,6 @@
   }
   .nav .links a:hover{ color: var(--gold); }
   .nav .links a.active{ color: var(--gold); }
-
   .eyebrow{
     font-family:'IBM Plex Mono', monospace;
     font-size:12px;
@@ -97,86 +99,241 @@
   h1{
     font-family:'Fraunces', serif;
     font-weight:600;
-    font-size: clamp(30px, 5vw, 42px);
-    line-height: 1.1;
-    margin: 0 0 14px;
+    font-size: clamp(32px, 5.4vw, 46px);
+    line-height: 1.08;
+    margin: 0 0 16px;
     letter-spacing:-0.01em;
     color: var(--cream);
+  }
+  h1 em{
+    font-style: italic;
+    font-weight: 400;
+    color: var(--gold);
   }
   .sub{
     color: var(--cream-soft);
     font-size:16px;
-    max-width: 46ch;
+    max-width: 48ch;
     margin:0;
     line-height:1.6;
   }
 
   .wrap{
-    max-width: 720px;
+    max-width: 680px;
     margin: 0 auto;
     padding: 0 24px 90px;
   }
 
-  .posts{
-    margin-top: -60px;
-    display:flex;
-    flex-direction:column;
-    gap: 18px;
-  }
-  .post-card{
+  .card{
     background: var(--card);
-    border-radius: 14px;
-    padding: 28px 30px;
-    text-decoration:none;
-    color:inherit;
+    border-radius: var(--radius);
+    padding: 36px;
+    box-shadow: 0 30px 60px -25px rgba(13,43,38,0.35), 0 2px 8px rgba(13,43,38,0.06);
+    margin-top: -96px;
+    position: relative;
+  }
+
+  .input-block{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  label{
     display:block;
-    box-shadow: 0 20px 40px -28px rgba(13,43,38,0.28), 0 1px 3px rgba(13,43,38,0.05);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    font-size:13px;
+    font-weight:600;
+    color: var(--ink-soft);
+    margin-bottom:10px;
   }
-  .post-card:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 24px 48px -24px rgba(13,43,38,0.32), 0 2px 4px rgba(13,43,38,0.06);
+  .a1c-input-shell{
+    display:flex;
+    align-items:baseline;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom:6px;
+    width: fit-content;
   }
-  .post-meta{
+  input[type=number]{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size: 60px;
+    border:none;
+    outline:none;
+    background:transparent;
+    color: var(--ink);
+    width: 150px;
+    -moz-appearance: textfield;
+  }
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button{
+    -webkit-appearance:none; margin:0;
+  }
+  .percent-sign{
+    font-family:'Fraunces', serif;
+    font-size:30px;
+    color: var(--ink-soft);
+  }
+
+  .range-badge{
+    font-size:13px;
+    font-weight:600;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 14px;
+    border-radius:999px;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+  .range-badge .dot{
+    width:8px;height:8px;border-radius:50%;
+  }
+
+  input[type=range]{
+    width:100%;
+    margin: 20px 0 8px;
+    accent-color: var(--gold);
+    height: 4px;
+  }
+
+  /* Gauge */
+  .gauge-wrap{
+    display:flex;
+    justify-content:center;
+    margin: 20px 0 8px;
+  }
+  #gaugeSvg{ width: 100%; max-width: 360px; height: auto; }
+  .gauge-tick-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    fill: var(--ink-soft);
+  }
+
+  .results{
+    margin-top: 20px;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:14px;
+  }
+  .result-box{
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .result-box .k{
     font-family:'IBM Plex Mono', monospace;
     font-size:11px;
     text-transform:uppercase;
-    letter-spacing:0.06em;
+    letter-spacing:0.08em;
     color: var(--ink-soft);
-    margin-bottom:10px;
-    display:flex;
-    gap:10px;
-    align-items:center;
+    display:block;
+    margin-bottom:6px;
   }
-  .post-meta .tag{
-    color: var(--gold-deep);
+  .result-box .v{
+    font-family:'Fraunces', serif;
+    font-size: 28px;
+    font-weight:600;
   }
-  .post-card h2{
+  .result-box .v .unit{
+    font-family:'Inter', sans-serif;
+    font-size: 14px;
+    font-weight:500;
+    color: var(--ink-soft);
+    margin-left:4px;
+  }
+
+  .disclaimer{
+    margin-top: 24px;
+    font-size:12.5px;
+    color: var(--ink-soft);
+    line-height:1.6;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+  }
+  .disclaimer strong{ color: var(--ink); }
+
+  /* Info section below card */
+  .info-grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-top: 56px;
+  }
+  @media (min-width: 640px){
+    .info-grid{ grid-template-columns: 1.1fr 1fr; }
+  }
+  .info-grid h2{
     font-family:'Fraunces', serif;
     font-weight:600;
-    font-size: 21px;
-    margin: 0 0 8px;
-    letter-spacing:-0.01em;
+    font-size:20px;
+    margin: 0 0 14px;
   }
-  .post-card p{
+  .info-grid p{
     font-size:14px;
     color: var(--ink-soft);
-    margin:0;
-    line-height:1.6;
+    margin: 0 0 12px;
+    line-height:1.65;
   }
-  .post-card .read-more{
-    display:inline-block;
-    margin-top:14px;
+  .formula code{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
     font-size:13px;
-    font-weight:600;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 10px 0;
     color: var(--gold-deep);
   }
 
-  .empty-note{
-    margin-top: 40px;
-    text-align:center;
-    font-size:13px;
+  table{
+    width:100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    background: var(--card);
+    border-radius: 10px;
+    overflow:hidden;
+    border: 1px solid var(--line);
+  }
+  th, td{
+    text-align:left;
+    padding: 9px 14px;
+  }
+  thead th{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
     color: var(--ink-soft);
+    background: var(--bg);
+    font-weight:600;
+  }
+  tbody tr{ border-top: 1px solid var(--line); }
+  tbody td:first-child{ font-weight:600; font-family:'IBM Plex Mono', monospace; }
+
+  .blog-teaser{
+    text-align:center;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .blog-teaser p{
+    font-size:14px;
+    color: var(--ink-soft);
+    margin:0;
+  }
+  .blog-teaser a{
+    color: var(--gold-deep);
+    font-weight:600;
+    text-decoration:none;
+  }
+  .blog-teaser a:hover{ text-decoration:underline; }
+
+  @media (prefers-reduced-motion: reduce){
+    #needle{ transition:none !important; }
   }
 </style>
 </head>
@@ -187,34 +344,223 @@
     <nav class="nav">
       <a href="/" class="logo">a1c<span>&middot;</span>calc</a>
       <div class="links">
-        <a href="/">Calculator</a>
-        <a href="/blog/" class="active">Blog</a>
+        <a href="/" class="active">Calculator</a>
+        <a href="/blog/">Blog</a>
       </div>
     </nav>
-    <div class="eyebrow">The blog</div>
-    <h1>Understanding your numbers</h1>
-    <p class="sub">Plain-language guides on HbA1c, average glucose, and what your lab results actually mean for your health.</p>
+    <div class="eyebrow">Lab reference tool</div>
+    <h1>Know what your <em>A1C</em> actually means</h1>
+    <p class="sub">Enter an HbA1c result to see the estimated average glucose it corresponds to — instantly, in mg/dL and mmol/L.</p>
   </div>
 </div>
 
 <div class="wrap">
-  <div class="posts">
-
-    <a class="post-card" href="/blog/normal-a1c-levels-guide.html">
-      <div class="post-meta">
-        <span class="tag">Guide</span>
-        <span>&middot;</span>
-        <span>7 min read</span>
+  <div class="card">
+    <div class="input-block">
+      <div>
+        <label for="a1c">HbA1c result</label>
+        <div class="a1c-input-shell">
+          <input type="number" id="a1c" value="6.0" min="3" max="16" step="0.1" inputmode="decimal">
+          <span class="percent-sign">%</span>
+        </div>
       </div>
-      <h2>What Is a Normal A1C Level? A Complete Guide</h2>
-      <p>A breakdown of normal, prediabetes, and diabetes A1C ranges, what can throw off your result, and when it's worth retesting.</p>
-      <span class="read-more">Read the guide &rarr;</span>
-    </a>
+      <div class="range-badge" id="rangeReadout">
+        <span class="dot"></span>
+        <span id="rangeText">Normal range</span>
+      </div>
+    </div>
 
-    <!-- Add new posts by copying a post-card block above and linking to a new file in /blog/ -->
+    <input type="range" id="a1cSlider" min="3" max="16" step="0.1" value="6.0" aria-label="HbA1c slider">
 
+    <div class="gauge-wrap">
+      <svg id="gaugeSvg" viewBox="0 0 300 175" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+
+    <div class="results">
+      <div class="result-box">
+        <span class="k">Average glucose</span>
+        <span class="v" id="mgdl">126<span class="unit">mg/dL</span></span>
+      </div>
+      <div class="result-box">
+        <span class="k">Average glucose</span>
+        <span class="v" id="mmol">7.0<span class="unit">mmol/L</span></span>
+      </div>
+    </div>
+
+    <p class="disclaimer">
+      This tool provides an estimate for informational purposes only and is <strong>not a diagnosis</strong>. Reference ranges follow American Diabetes Association guidelines: normal below 5.7%, prediabetes 5.7%&ndash;6.4%, diabetes 6.5% or above. Always confirm results and interpretation with a doctor or lab report.
+    </p>
+  </div>
+
+  <div class="info-grid">
+    <div class="formula">
+      <h2>How the conversion works</h2>
+      <p>eAG is derived from HbA1c using the linear formula published from the ADAG study, which correlated A1C lab values against continuous glucose monitoring data over three months.</p>
+      <code>eAG (mg/dL) = 28.7 &times; A1C &minus; 46.7</code>
+      <code>eAG (mmol/L) = 1.59 &times; A1C &minus; 2.59</code>
+      <p>HbA1c reflects average blood glucose over roughly the previous 2&ndash;3 months, weighted more heavily toward the most recent 30 days.</p>
+    </div>
+
+    <div class="quick-ref">
+      <h2>Quick reference</h2>
+      <table>
+        <thead>
+          <tr><th>A1C</th><th>mg/dL</th><th>mmol/L</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>5.0%</td><td>97</td><td>5.4</td></tr>
+          <tr><td>5.7%</td><td>117</td><td>6.5</td></tr>
+          <tr><td>6.0%</td><td>126</td><td>7.0</td></tr>
+          <tr><td>6.5%</td><td>140</td><td>7.7</td></tr>
+          <tr><td>7.0%</td><td>154</td><td>8.5</td></tr>
+          <tr><td>8.0%</td><td>183</td><td>10.1</td></tr>
+          <tr><td>9.0%</td><td>212</td><td>11.7</td></tr>
+          <tr><td>10.0%</td><td>240</td><td>13.3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="blog-teaser">
+    <p>Want to understand your results in more depth? <a href="/blog/">Read the blog &rarr;</a></p>
   </div>
 </div>
 
+<script>
+  const a1cInput = document.getElementById('a1c');
+  const slider = document.getElementById('a1cSlider');
+  const mgdlEl = document.getElementById('mgdl');
+  const mmolEl = document.getElementById('mmol');
+  const rangeText = document.getElementById('rangeText');
+  const rangeReadout = document.getElementById('rangeReadout');
+  const dot = rangeReadout.querySelector('.dot');
+
+  const MIN = 3, MAX = 16;
+  const CX = 150, CY = 150, R = 118, R_INNER = 96;
+
+  const svg = document.getElementById('gaugeSvg');
+  const NS = 'http://www.w3.org/2000/svg';
+
+  function polar(cx, cy, r, angleDeg){
+    const rad = angleDeg * Math.PI / 180;
+    return { x: cx + r * Math.cos(rad), y: cy - r * Math.sin(rad) };
+  }
+  function arcPath(cx, cy, r, startAngle, endAngle){
+    const start = polar(cx, cy, r, startAngle);
+    const end = polar(cx, cy, r, endAngle);
+    const largeArc = Math.abs(startAngle - endAngle) > 180 ? 1 : 0;
+    const sweep = startAngle > endAngle ? 1 : 0;
+    return `M ${start.x.toFixed(2)} ${start.y.toFixed(2)} A ${r} ${r} 0 ${largeArc} ${sweep} ${end.x.toFixed(2)} ${end.y.toFixed(2)}`;
+  }
+  function angleForValue(v){
+    return 180 - ((v - MIN) / (MAX - MIN)) * 180;
+  }
+
+  // Build static zones
+  const zones = [
+    { from: 3,    to: 5.7,  color: 'var(--normal)' },
+    { from: 5.7,  to: 6.5,  color: 'var(--pre)' },
+    { from: 6.5,  to: 16,   color: 'var(--diabetes)' }
+  ];
+  zones.forEach(z => {
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute('d', arcPath(CX, CY, R, angleForValue(z.from), angleForValue(z.to)));
+    path.setAttribute('stroke', z.color);
+    path.setAttribute('stroke-width', '20');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke-linecap', z.from === 3 || z.to === 16 ? 'round' : 'butt');
+    svg.appendChild(path);
+  });
+
+  // Tick labels
+  [{v:3,label:'3%'},{v:5.7,label:'5.7%'},{v:6.5,label:'6.5%'},{v:16,label:'16%'}].forEach(t => {
+    const p = polar(CX, CY, R + 22, angleForValue(t.v));
+    const text = document.createElementNS(NS, 'text');
+    text.setAttribute('x', p.x);
+    text.setAttribute('y', p.y + 4);
+    text.setAttribute('text-anchor', t.v === 3 ? 'start' : (t.v === 16 ? 'end' : 'middle'));
+    text.setAttribute('class', 'gauge-tick-label');
+    text.textContent = t.label;
+    svg.appendChild(text);
+  });
+
+  // Needle group
+  const needle = document.createElementNS(NS, 'line');
+  needle.setAttribute('id', 'needle');
+  needle.setAttribute('x1', CX);
+  needle.setAttribute('y1', CY);
+  needle.setAttribute('stroke', 'var(--ink)');
+  needle.setAttribute('stroke-width', '3');
+  needle.setAttribute('stroke-linecap', 'round');
+  needle.style.transition = 'x2 0.15s ease, y2 0.15s ease';
+  svg.appendChild(needle);
+
+  const pivot = document.createElementNS(NS, 'circle');
+  pivot.setAttribute('cx', CX);
+  pivot.setAttribute('cy', CY);
+  pivot.setAttribute('r', 8);
+  pivot.setAttribute('fill', 'var(--ink)');
+  svg.appendChild(pivot);
+
+  const pivotInner = document.createElementNS(NS, 'circle');
+  pivotInner.setAttribute('cx', CX);
+  pivotInner.setAttribute('cy', CY);
+  pivotInner.setAttribute('r', 3.5);
+  pivotInner.setAttribute('fill', 'var(--card)');
+  svg.appendChild(pivotInner);
+
+  // Value readout inside gauge
+  const valueText = document.createElementNS(NS, 'text');
+  valueText.setAttribute('x', CX);
+  valueText.setAttribute('y', CY + 34);
+  valueText.setAttribute('text-anchor', 'middle');
+  valueText.setAttribute('font-family', 'IBM Plex Mono, monospace');
+  valueText.setAttribute('font-size', '12');
+  valueText.setAttribute('fill', 'var(--ink-soft)');
+  valueText.textContent = 'A1C';
+  svg.appendChild(valueText);
+
+  function classify(a1c){
+    if(a1c < 5.7) return {label:'Normal range', color:'#4C9A6A'};
+    if(a1c < 6.5) return {label:'Prediabetes range', color:'#D9A441'};
+    return {label:'Diabetes range', color:'#C1543A'};
+  }
+
+  function update(a1c){
+    a1c = Math.min(MAX, Math.max(MIN, a1c));
+
+    const mgdl = (28.7 * a1c) - 46.7;
+    const mmol = (1.59 * a1c) - 2.59;
+
+    mgdlEl.innerHTML = mgdl.toFixed(0) + '<span class="unit">mg/dL</span>';
+    mmolEl.innerHTML = mmol.toFixed(1) + '<span class="unit">mmol/L</span>';
+
+    const angle = angleForValue(a1c);
+    const tip = polar(CX, CY, R_INNER, angle);
+    needle.setAttribute('x2', tip.x.toFixed(2));
+    needle.setAttribute('y2', tip.y.toFixed(2));
+
+    const c = classify(a1c);
+    rangeText.textContent = c.label;
+    dot.style.background = c.color;
+    rangeReadout.style.background = c.color + '17';
+    rangeReadout.style.color = c.color;
+  }
+
+  a1cInput.addEventListener('input', () => {
+    const v = parseFloat(a1cInput.value);
+    if(!isNaN(v)){
+      slider.value = v;
+      update(v);
+    }
+  });
+
+  slider.addEventListener('input', () => {
+    a1cInput.value = slider.value;
+    update(parseFloat(slider.value));
+  });
+
+  update(parseFloat(a1cInput.value));
+</script>
 </body>
 </html>
