@@ -1,1 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Is a Normal A1C Level? A Complete Guide | A1C Calc</title>
+<meta name="description" content="A clear breakdown of normal, prediabetes, and diabetes A1C ranges, what can affect your result, and when to retest.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --hero-1: #0D2B26;
+    --hero-2: #16453C;
+    --cream: #F4EFE6;
+    --cream-soft: #B9CBC5;
+    --bg: #F4F7F6;
+    --card: #FFFFFF;
+    --ink: #16281F;
+    --ink-soft: #5B7169;
+    --line: #E3EAE7;
+    --gold: #D89A4E;
+    --gold-deep: #B87B32;
+    --normal: #4C9A6A;
+    --pre: #D9A441;
+    --diabetes: #C1543A;
+    --radius: 18px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hero{
+    background: radial-gradient(120% 160% at 15% 0%, var(--hero-2) 0%, var(--hero-1) 65%);
+    padding: 64px 24px 100px;
+    position: relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';
+    position:absolute;
+    right: -120px; top: -120px;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(216,154,78,0.16) 0%, rgba(216,154,78,0) 70%);
+  }
+  .hero-inner{
+    max-width: 680px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom: 48px;
+  }
+  .nav .logo{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:15px;
+    color: var(--cream);
+    letter-spacing: 0.01em;
+    text-decoration:none;
+  }
+  .nav .logo span{ color: var(--gold); }
+  .nav .links a{
+    color: var(--cream-soft);
+    text-decoration:none;
+    font-size:14px;
+    font-weight:500;
+    margin-left:26px;
+  }
+  .nav .links a:hover{ color: var(--gold); }
+  .nav .links a.active{ color: var(--gold); }
+
+  .breadcrumb{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color: var(--gold);
+    margin-bottom:16px;
+  }
+  .breadcrumb a{ color: var(--cream-soft); text-decoration:none; }
+  .breadcrumb a:hover{ color: var(--gold); }
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size: clamp(28px, 4.6vw, 40px);
+    line-height: 1.12;
+    margin: 0 0 14px;
+    letter-spacing:-0.01em;
+    color: var(--cream);
+  }
+  .meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color: var(--cream-soft);
+  }
+
+  .wrap{
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px 90px;
+  }
+
+  article{
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 44px;
+    margin-top: -60px;
+    box-shadow: 0 30px 60px -25px rgba(13,43,38,0.35), 0 2px 8px rgba(13,43,38,0.06);
+  }
+  article h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size: 22px;
+    margin: 36px 0 14px;
+    letter-spacing:-0.01em;
+  }
+  article h2:first-child{ margin-top:0; }
+  article p{
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: var(--ink);
+    margin: 0 0 16px;
+  }
+  article ul{
+    margin: 0 0 16px;
+    padding-left: 20px;
+  }
+  article li{
+    font-size: 15.5px;
+    line-height: 1.75;
+    margin-bottom: 6px;
+  }
+
+  table{
+    width:100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin: 8px 0 20px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow:hidden;
+  }
+  th, td{ text-align:left; padding: 10px 14px; }
+  thead th{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color: var(--ink-soft);
+    background: var(--bg);
+  }
+  tbody tr{ border-top: 1px solid var(--line); }
+  .range-dot{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:8px; }
+
+  .callout{
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 24px 0;
+  }
+  .callout p{ margin:0; font-size:14.5px; color: var(--ink-soft); }
+  .callout p strong{ color: var(--ink); }
+
+  .cta{
+    margin-top: 40px;
+    background: var(--hero-1);
+    border-radius: 14px;
+    padding: 28px 30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .cta p{
+    color: var(--cream);
+    font-family:'Fraunces', serif;
+    font-size: 17px;
+    margin:0;
+  }
+  .cta a{
+    background: var(--gold);
+    color: var(--hero-1);
+    text-decoration:none;
+    font-weight:600;
+    font-size: 14px;
+    padding: 11px 20px;
+    border-radius: 8px;
+    white-space:nowrap;
+  }
+
+  .disclaimer{
+    margin-top: 30px;
+    font-size:12.5px;
+    color: var(--ink-soft);
+    line-height:1.6;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <nav class="nav">
+      <a href="/" class="logo">a1c<span>&middot;</span>calc</a>
+      <div class="links">
+        <a href="/">Calculator</a>
+        <a href="/blog/" class="active">Blog</a>
+      </div>
+    </nav>
+    <div class="breadcrumb"><a href="/blog/">Blog</a> &rarr; Guide</div>
+    <h1>What Is a Normal A1C Level? A Complete Guide</h1>
+    <div class="meta">7 min read</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <article>
+    <h2>The three A1C ranges, at a glance</h2>
+    <p>HbA1c (often just called A1C) measures the percentage of your hemoglobin that has glucose attached to it. Because red blood cells live for about three months, this single number gives a rolling average of your blood sugar over that period, rather than a snapshot like a finger-prick reading.</p>
+
+    <table>
+      <thead>
+        <tr><th>A1C result</th><th>Category</th><th>Estimated average glucose</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="range-dot" style="background:var(--normal)"></span>Below 5.7%</td><td>Normal</td><td>Below ~117 mg/dL</td></tr>
+        <tr><td><span class="range-dot" style="background:var(--pre)"></span>5.7% &ndash; 6.4%</td><td>Prediabetes</td><td>~117&ndash;137 mg/dL</td></tr>
+        <tr><td><span class="range-dot" style="background:var(--diabetes)"></span>6.5% and above</td><td>Diabetes</td><td>140 mg/dL and above</td></tr>
+      </tbody>
+    </table>
+
+    <p>These thresholds come from American Diabetes Association guidelines and are the ones most labs and clinics use in the US. Some countries report A1C in mmol/mol instead of a percentage, and international bodies occasionally set slightly different cutoffs, so it's worth checking which scale your lab report uses.</p>
+
+    <h2>What counts as a "good" A1C if you already have diabetes</h2>
+    <p>If you've been diagnosed with diabetes, "normal" isn't usually the target your doctor gives you — a personalized goal is. Many adults are told to aim for below 7%, but that number can be adjusted higher or lower depending on age, how long you've had diabetes, other health conditions, and your risk of low blood sugar episodes. A target that's right for someone else may not be right for you, which is why this is a conversation to have directly with whoever manages your care.</p>
+
+    <h2>What can throw off an A1C result</h2>
+    <p>A1C is reliable, but it isn't perfect. A handful of things can push your number up or down without actually reflecting your average glucose:</p>
+    <ul>
+      <li><strong>Anemia and blood loss</strong> — conditions that affect red blood cell lifespan can skew results in either direction.</li>
+      <li><strong>Certain hemoglobin variants</strong> (like sickle cell trait) can make lab results inaccurate depending on the testing method used.</li>
+      <li><strong>Kidney disease and liver disease</strong> can both affect A1C independently of blood sugar.</li>
+      <li><strong>Pregnancy</strong> changes red blood cell turnover, so A1C is generally not used to diagnose diabetes during pregnancy.</li>
+      <li><strong>Recent blood transfusions</strong> can temporarily distort the result.</li>
+    </ul>
+    <p>If your A1C doesn't match what your home glucose readings suggest, this is often why — and it's a good reason to mention any of the above to your doctor.</p>
+
+    <div class="callout">
+      <p><strong>Worth knowing:</strong> A1C reflects an average — it can't tell you about swings between highs and lows. Two people with the same A1C can have very different day-to-day glucose patterns, which is one reason doctors sometimes pair it with continuous glucose monitoring data.</p>
+    </div>
+
+    <h2>How often should you get it checked</h2>
+    <p>For most adults without diabetes, A1C isn't tested routinely unless there's a specific risk factor — being overweight, a family history of diabetes, or symptoms like increased thirst or fatigue. If you're in the prediabetes range, doctors typically recommend retesting once a year. If you have diabetes, testing every 3 to 6 months is common, since that roughly matches how long it takes the number to fully reflect a change in your management.</p>
+
+    <h2>The bottom line</h2>
+    <p>A1C is one of the most useful long-term markers for blood sugar health precisely because it can't be skewed by what you ate the morning of the test. But it's one data point, not the whole picture — it works best alongside a conversation with a doctor who knows your history.</p>
+
+    <div class="cta">
+      <p>Want to convert your result into an average glucose reading?</p>
+      <a href="/">Use the calculator &rarr;</a>
+    </div>
+
+    <p class="disclaimer">This article is for general education and isn't medical advice. Always discuss your specific results and targets with a qualified healthcare provider.</p>
+  </article>
+</div>
+
+</body>
+</html>
 
