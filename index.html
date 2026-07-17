@@ -255,6 +255,58 @@
   }
   .disclaimer strong{ color: var(--ink); }
 
+  .categories{
+    margin-top: 48px;
+  }
+  .categories h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:20px;
+    margin: 0 0 16px;
+  }
+  .category-grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  @media (min-width: 560px){
+    .category-grid{ grid-template-columns: repeat(3, 1fr); }
+  }
+  .category-card{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 4px solid var(--line);
+  }
+  .category-card.normal{ border-left-color: var(--normal); }
+  .category-card.pre{ border-left-color: var(--pre); }
+  .category-card.diabetes{ border-left-color: var(--diabetes); }
+  .category-card .cat-name{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:16px;
+    margin: 0 0 6px;
+  }
+  .category-card .cat-range{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color: var(--ink-soft);
+    margin: 0 0 10px;
+  }
+  .category-card .cat-desc{
+    font-size:13px;
+    color: var(--ink-soft);
+    line-height:1.55;
+    margin:0;
+  }
+  .categories .type-note{
+    margin-top: 14px;
+    font-size:12.5px;
+    color: var(--ink-soft);
+    line-height:1.6;
+  }
+
   /* Info section below card */
   .info-grid{
     display:grid;
@@ -419,6 +471,28 @@
         </tbody>
       </table>
     </div>
+  </div>
+
+  <div class="categories">
+    <h2>A1C categories at a glance</h2>
+    <div class="category-grid">
+      <div class="category-card normal">
+        <p class="cat-name">Normal</p>
+        <p class="cat-range">Below 5.7% &middot; &lt;117 mg/dL &middot; &lt;6.5 mmol/L</p>
+        <p class="cat-desc">No signs of diabetes or prediabetes based on this result.</p>
+      </div>
+      <div class="category-card pre">
+        <p class="cat-name">Prediabetes</p>
+        <p class="cat-range">5.7% &ndash; 6.4% &middot; 117&ndash;137 mg/dL &middot; 6.5&ndash;7.6 mmol/L</p>
+        <p class="cat-desc">Higher than normal blood sugar. Often reversible with lifestyle changes &mdash; worth discussing with a doctor.</p>
+      </div>
+      <div class="category-card diabetes">
+        <p class="cat-name">Diabetes</p>
+        <p class="cat-range">6.5% and above &middot; 140+ mg/dL &middot; 7.7+ mmol/L</p>
+        <p class="cat-desc">Meets the diagnostic threshold for diabetes. Confirms elevated blood sugar, not which type.</p>
+      </div>
+    </div>
+    <p class="type-note"><strong>Type 1 vs Type 2:</strong> A1C ranges are identical for both &mdash; the test measures blood sugar control, not the type of diabetes. Distinguishing Type 1 from Type 2 requires additional testing (such as antibody tests) and a doctor's evaluation, not the A1C result alone.</p>
   </div>
 
   <div class="blog-teaser">
